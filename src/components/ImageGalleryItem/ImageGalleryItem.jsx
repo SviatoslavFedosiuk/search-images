@@ -1,12 +1,17 @@
 import { Component } from "react";
-// import style from "./ImageGallery.module.css"
+import style from "./ImageGalleryItem.module.css"
 class ImageGalleryItem extends Component {
+
+  handleImageClick = (img) =>{
+this.props.onClick(img)
+
+  }
   render() {
-    const {image} = this.props
+    const {image, } = this.props
     return (
       <>
-        <li key={image.id}>
-          <img src={image.webformatURL} alt={image.tags} />
+        <li className={style.item}>
+          <img className={style.img} onClick={()=>this.handleImageClick(image.largeImageURL)} src={image.webformatURL} alt={image.tags} />
         </li>
       </>
     );

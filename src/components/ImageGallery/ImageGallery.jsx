@@ -9,7 +9,7 @@ class ImageGallery extends Component {
         <ul className={style.list}>
           {images.map((img) => {
             return (
-            <ImageGalleryItem key={img.id} image={img}/>
+            <ImageGalleryItem onClick={this.props.onClick} key={img.id + String(Math.random())} image={img}/>
             );
           })}
         </ul>
