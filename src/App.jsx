@@ -16,6 +16,12 @@ class App extends Component{
     largeImage: "",
   }
 
+  handleCloseModal = () =>{
+    this.setState({
+      largeImage: ""
+    })
+  }
+
   handleBigImage = (img) => {
     this.setState({
       largeImage: img,
@@ -38,22 +44,21 @@ class App extends Component{
   }
 
 
-  handleMore = () =>{
-    this.setState((prev)=>{
-      return {
-        page: prev.page + 1, 
-        loading: true,
-      }
-    })
-    fetchImages(this.state.searchValue, this.state.page).then((images)=>{
-      this.setState((prev)=>{
-        return {
-          images: [...prev.images, ... images],
-          loading: false,
-        }
-      })
-    })
-  }
+  
+handleMore = () => {
+  const nextPage = this.state.page + 1;
+
+  this.setState({ loading: true });
+
+  fetchImages(this.state.searchValue, nextPage).then((images) => {
+    this.setState((prev) => ({
+      images: [...prev.images, ...images],
+      page: nextPage,
+      loading: false,
+    }));
+  });
+};
+
   render(){
     return(
       <>
@@ -61,7 +66,7 @@ class App extends Component{
       {this.state.loading && <Loader/>}
       <ImageGallery onClick={this.handleBigImage} images={this.state.images}/>
       {this.state.images.length > 0 && <Button onClick={this.handleMore}/>}
-      {this.state.largeImage && <Modal  largeImg={this.state.largeImage}/>}
+      {this.state.largeImage && <Modal onClose={this.handleCloseModal} largeImg={this.state.largeImage}/>}
       </>
     )
   }
